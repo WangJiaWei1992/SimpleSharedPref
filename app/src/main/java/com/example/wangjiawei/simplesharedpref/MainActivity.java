@@ -12,6 +12,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SimpleSharedPref.getService().sample();
+        SimpleSharedPref.getService().sample().put("123");
     }
 }

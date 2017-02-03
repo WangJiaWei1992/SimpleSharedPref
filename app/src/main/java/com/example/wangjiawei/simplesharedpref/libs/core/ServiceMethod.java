@@ -5,6 +5,8 @@ import com.example.wangjiawei.simplesharedpref.libs.config.KEY;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * Created by WangJiaWei on 2017/2/3.
@@ -12,8 +14,26 @@ import java.lang.reflect.Method;
 
 public class ServiceMethod<T> {
 
-    ServiceMethod(Builder<T> builder) {
+    private String mKey;
+    private String mDefault;
+    private final Class mTypeClass;
 
+    ServiceMethod(Builder<T> builder) {
+        mKey = builder.mKey;
+        mDefault = builder.mDefault;
+        mTypeClass = builder.mTypeClass;
+    }
+
+    public String getKey() {
+        return mKey;
+    }
+
+    public String getDefault() {
+        return mDefault;
+    }
+
+    public Class getTypeClass() {
+        return mTypeClass;
     }
 
     public static final class Builder<T> {
@@ -22,16 +42,22 @@ public class ServiceMethod<T> {
 
         String mKey;
         String mDefault;
+        final Class mTypeClass;
 
         public Builder(Method method) {
             this.method = method;
             this.methodAnnotations = method.getAnnotations();
+
+            ParameterizedType returnType = (ParameterizedType) method.getGenericReturnType();
+            Type[] types = returnType.getActualTypeArguments();
+            mTypeClass = (Class) types[0];
         }
 
         public ServiceMethod build() {
             for (Annotation annotation : methodAnnotations) {
                 parseMethodAnnotation(annotation);
             }
+
             return new ServiceMethod<>(this);
         }
 
@@ -42,5 +68,6 @@ public class ServiceMethod<T> {
                 mDefault = ((DEFAULT) annotation).value();
             }
         }
+
     }
 }

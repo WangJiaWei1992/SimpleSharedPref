@@ -1,6 +1,8 @@
 package com.example.wangjiawei.simplesharedpref.libs;
 
+import com.example.wangjiawei.simplesharedpref.libs.core.ExecutorCallbackCall;
 import com.example.wangjiawei.simplesharedpref.libs.core.ServiceMethod;
+import com.example.wangjiawei.simplesharedpref.libs.core.SharedPrefCall;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -21,11 +23,11 @@ public class SimpleSharedPref {
         mDelegate = create(ISharedPref.class);
     }
 
-    private static class InstanceHolder{
+    private static class InstanceHolder {
         private static final SimpleSharedPref instance = new SimpleSharedPref();
     }
 
-    public static SimpleSharedPref getIns(){
+    public static SimpleSharedPref getIns() {
         return InstanceHolder.instance;
     }
 
@@ -45,7 +47,8 @@ public class SimpleSharedPref {
                             return method.invoke(this, args);
                         }
                         ServiceMethod serviceMethod = loadServiceMethod(method);
-                        return null;//serviceMethod.callAdapter.adapt(okHttpCall);
+                        SharedPrefCall sharedPrefCall = new SharedPrefCall<>(serviceMethod, args);
+                        return new ExecutorCallbackCall<>(sharedPrefCall);
                     }
                 });
     }
