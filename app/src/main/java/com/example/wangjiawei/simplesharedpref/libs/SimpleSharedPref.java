@@ -47,7 +47,7 @@ public class SimpleSharedPref {
                             return method.invoke(this, args);
                         }
                         ServiceMethod serviceMethod = loadServiceMethod(method);
-                        SharedPrefCall sharedPrefCall = new SharedPrefCall<>(serviceMethod, args);
+                        SharedPrefCall sharedPrefCall = new SharedPrefCall<>(serviceMethod);
                         return new ExecutorCallbackCall<>(sharedPrefCall);
                     }
                 });
