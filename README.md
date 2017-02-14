@@ -1,4 +1,4 @@
-# SimpleSharedPref 一个操作简单的SharedPref
+# SimpleSharedPref
 ## 如何使用
 ### 1.在接口ISharedPref中添加键值对信息
 ```java
