@@ -13,7 +13,7 @@ import com.example.wangjiawei.simplesharedpref.App;
 public class SharedPrefCall<T> implements Call<T>  {
 
     private final ServiceMethod<T> serviceMethod;
-    private String mKey = null;
+    private String mKey = "";
 
     private String mStrSharedPreferenceName = null;
     private SharedPreferences mShardPreferences = null;
@@ -27,7 +27,7 @@ public class SharedPrefCall<T> implements Call<T>  {
 
     @Override
     public T get() {
-        String key = TextUtils.isEmpty(mKey) ? serviceMethod.getKey() : mKey;
+        String key = serviceMethod.getKey() + mKey;
         String defaultValue = serviceMethod.getDefault();
         Class<T> cls = serviceMethod.getTypeClass();
 
@@ -51,7 +51,7 @@ public class SharedPrefCall<T> implements Call<T>  {
 
     @Override
     public void put(T t) {
-        String key = TextUtils.isEmpty(mKey) ? serviceMethod.getKey() : mKey;
+        String key = serviceMethod.getKey() + mKey;
         Class cls = serviceMethod.getTypeClass();
 
         try {

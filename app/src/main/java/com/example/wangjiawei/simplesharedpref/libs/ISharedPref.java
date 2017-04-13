@@ -29,4 +29,8 @@ public interface ISharedPref {
     @KEY("sample4")
     @DEFAULT("13256516585156")
     Call<Long> sample4();
+
+    @KEY("device_name_")
+    @DEFAULT("")
+    Call<String> sample5();
 }

@@ -26,5 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         SimpleSharedPref.getService().sample4().put(55555555555555L);
         long r4 = SimpleSharedPref.getService().sample4().get();
+
+        SimpleSharedPref.getService().sample5().setKey("haha").put("123");
     }
 }
