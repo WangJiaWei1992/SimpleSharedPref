@@ -21,4 +21,10 @@ public class ExecutorCallbackCall<T> implements Call<T> {
     public void put(T t) {
         delegate.put(t);
     }
+
+    @Override
+    public Call<T> setKey(String key) {
+        delegate.setKey(key);
+        return delegate;
+    }
 }

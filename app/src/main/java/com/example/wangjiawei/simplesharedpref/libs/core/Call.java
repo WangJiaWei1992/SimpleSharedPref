@@ -9,4 +9,6 @@ public interface Call<T> {
     T get();
 
     void put(T t);
+
+    Call<T> setKey(String key);
 }
