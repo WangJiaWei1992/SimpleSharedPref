@@ -2,7 +2,6 @@ package com.example.wangjiawei.simplesharedpref.libs.core;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
 
 import com.example.wangjiawei.simplesharedpref.App;
 
@@ -53,18 +52,19 @@ public class SharedPrefCall<T> implements Call<T>  {
     public void put(T t) {
         String key = serviceMethod.getKey() + mKey;
         Class cls = serviceMethod.getTypeClass();
+        boolean isSync = serviceMethod.isSync();
 
         try {
             if (cls == Integer.class) {
-                setIntValue(key, (Integer) t);
+                setIntValue(key, (Integer) t, isSync);
             } else if (cls == Float.class) {
-                setFloatValue(key, (Float) t);
+                setFloatValue(key, (Float) t, isSync);
             } else if (cls == Boolean.class) {
-                setBooleanValue(key, (Boolean) t);
+                setBooleanValue(key, (Boolean) t, isSync);
             } else if (cls == Long.class) {
-                setLongValue(key, (Long) t);
+                setLongValue(key, (Long) t, isSync);
             } else if (cls == String.class) {
-                setStringValue(key, (String) t);
+                setStringValue(key, (String) t, isSync);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,42 +97,42 @@ public class SharedPrefCall<T> implements Call<T>  {
         return getSharedPreference().getString(key, defValue);
     }
 
-    public void setBooleanValue(String key, boolean value) {
+    public void setBooleanValue(String key, boolean value, boolean isSync) {
         SharedPreferences.Editor editor = getSharedPreference().edit();
         editor.putBoolean(key, value);
-        applyToEditor(editor);
+        applyToEditor(editor, isSync);
     }
 
-    public void setLongValue(String key, long value) {
+    public void setLongValue(String key, long value, boolean isSync) {
         SharedPreferences.Editor editor = getSharedPreference().edit();
         editor.putLong(key, value);
-        applyToEditor(editor);
+        applyToEditor(editor, isSync);
     }
 
-    public void setIntValue(String key, int value) {
+    public void setIntValue(String key, int value, boolean isSync) {
         SharedPreferences.Editor editor = getSharedPreference().edit();
         editor.putInt(key, value);
-        applyToEditor(editor);
+        applyToEditor(editor, isSync);
     }
 
-    public void setFloatValue(String key, float value) {
+    public void setFloatValue(String key, float value, boolean isSync) {
         SharedPreferences.Editor editor = getSharedPreference().edit();
         editor.putFloat(key, value);
-        applyToEditor(editor);
+        applyToEditor(editor, isSync);
     }
 
-    public void setStringValue(String key, String value) {
+    public void setStringValue(String key, String value, boolean isSync) {
         SharedPreferences.Editor editor = getSharedPreference().edit();
         editor.putString(key, value);
-        applyToEditor(editor);
+        applyToEditor(editor, isSync);
     }
 
     private SharedPreferences getSharedPreference() {
         return mShardPreferences;
     }
 
-    private void applyToEditor(SharedPreferences.Editor editor) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD) {
+    private void applyToEditor(SharedPreferences.Editor editor, boolean isSync) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD && !isSync) {
             editor.apply();
         } else {
             editor.commit();

@@ -1,5 +1,6 @@
 package com.example.wangjiawei.simplesharedpref.libs;
 
+import com.example.wangjiawei.simplesharedpref.libs.config.SYNC;
 import com.example.wangjiawei.simplesharedpref.libs.core.Call;
 import com.example.wangjiawei.simplesharedpref.libs.config.DEFAULT;
 import com.example.wangjiawei.simplesharedpref.libs.config.KEY;
@@ -32,5 +33,6 @@ public interface ISharedPref {
 
     @KEY("device_name_")
     @DEFAULT("")
+    @SYNC
     Call<String> sample5();
 }

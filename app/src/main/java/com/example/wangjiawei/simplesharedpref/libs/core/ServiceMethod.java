@@ -2,6 +2,7 @@ package com.example.wangjiawei.simplesharedpref.libs.core;
 
 import com.example.wangjiawei.simplesharedpref.libs.config.DEFAULT;
 import com.example.wangjiawei.simplesharedpref.libs.config.KEY;
+import com.example.wangjiawei.simplesharedpref.libs.config.SYNC;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -16,12 +17,14 @@ public class ServiceMethod<T> {
 
     private String mKey;
     private String mDefault;
+    private boolean mIsSync;
     private final Class mTypeClass;
 
     ServiceMethod(Builder<T> builder) {
         mKey = builder.mKey;
         mDefault = builder.mDefault;
         mTypeClass = builder.mTypeClass;
+        mIsSync = builder.mIsSync;
     }
 
     public String getKey() {
@@ -30,6 +33,10 @@ public class ServiceMethod<T> {
 
     public String getDefault() {
         return mDefault;
+    }
+
+    public boolean isSync() {
+        return mIsSync;
     }
 
     public Class getTypeClass() {
@@ -42,6 +49,7 @@ public class ServiceMethod<T> {
 
         String mKey;
         String mDefault;
+        boolean mIsSync;
         final Class mTypeClass;
 
         public Builder(Method method) {
@@ -66,6 +74,8 @@ public class ServiceMethod<T> {
                 mKey = ((KEY) annotation).value();
             } else if (annotation instanceof DEFAULT) {
                 mDefault = ((DEFAULT) annotation).value();
+            } else if (annotation instanceof SYNC) {
+                mIsSync = true;
             }
         }
 
